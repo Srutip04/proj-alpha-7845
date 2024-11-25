@@ -1,6 +1,5 @@
 import { User, Role } from '../types/auth';
 
-// Simple token generation (in production, use a proper JWT library)
 export const generateToken = (user: User): string => {
   const payload = {
     id: user.id,
