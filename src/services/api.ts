@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -16,6 +16,30 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError) => {
+    if (error.response) {
+      const status = error.response.status;
+      
+      if (status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
+      
+      if (status === 403) {
+        window.location.href = '/forbidden';
+      }
+      
+      if (status === 404) {
+        window.location.href = '/not-found';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const login = async (email: string, password: string) => {
   const response = await api.post('/users/login', { email, password });

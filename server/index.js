@@ -15,12 +15,33 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 
+// Error handling middleware
 app.use((err, req, res, next) => {
+  console.error(err.stack);
+  
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({
+      message: 'Invalid token',
+    });
+  }
+
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      message: err.message,
+    });
+  }
+
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode);
-  res.json({
+  res.status(statusCode).json({
     message: err.message,
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+  });
+});
+
+// 404 handler for undefined routes
+app.use((req, res) => {
+  res.status(404).json({
+    message: 'Resource not found',
   });
 });
 

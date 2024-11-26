@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { LogOut, User as UserIcon, Shield, Settings } from 'lucide-react';
+import { LogOut, User as UserIcon, Shield, Settings, AlertTriangle } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -17,33 +17,43 @@ export const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {user && (
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <UserIcon className="h-5 w-5" />
-                <span>{user.name}</span>
-                <span className="bg-indigo-700 px-2 py-1 rounded-full text-xs">
-                  {user.role}
-                </span>
-              </div>
+          <div className="flex items-center space-x-4">
+            {user && (
+              <>
+                <div className="flex items-center space-x-2">
+                  <UserIcon className="h-5 w-5" />
+                  <span>{user.name}</span>
+                  <span className="bg-indigo-700 px-2 py-1 rounded-full text-xs">
+                    {user.role}
+                  </span>
+                </div>
 
-              {user.role === 'admin' && (
                 <Link
-                  to="/admin"
-                  className="hover:bg-indigo-700 px-3 py-2 rounded-md"
+                  to="/test-errors"
+                  className="hover:bg-indigo-700 px-3 py-2 rounded-md flex items-center"
+                  title="Test Error Pages"
                 >
-                  <Settings className="h-5 w-5" />
+                  <AlertTriangle className="h-5 w-5" />
                 </Link>
-              )}
 
-              <button
-                onClick={logout}
-                className="hover:bg-indigo-700 px-3 py-2 rounded-md flex items-center"
-              >
-                <LogOut className="h-5 w-5" />
-              </button>
-            </div>
-          )}
+                {user.role === 'admin' && (
+                  <Link
+                    to="/admin-dashboard"
+                    className="hover:bg-indigo-700 px-3 py-2 rounded-md"
+                  >
+                    <Settings className="h-5 w-5" />
+                  </Link>
+                )}
+
+                <button
+                  onClick={logout}
+                  className="hover:bg-indigo-700 px-3 py-2 rounded-md flex items-center"
+                >
+                  <LogOut className="h-5 w-5" />
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </nav>

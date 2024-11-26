@@ -6,6 +6,9 @@ import { Navbar } from './components/Navbar';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { Dashboard } from './pages/Dashboard';
+import { NotFound } from './pages/NotFound';
+import { Forbidden } from './pages/Forbidden';
+import { TestErrors } from './pages/TestErrors';
 
 function App() {
   return (
@@ -16,6 +19,8 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forbidden" element={<Forbidden />} />
+            <Route path="/test-errors" element={<TestErrors />} />
             <Route
               path="/dashboard"
               element={
@@ -24,7 +29,16 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>
