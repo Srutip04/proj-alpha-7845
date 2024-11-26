@@ -52,7 +52,7 @@ A modern, secure Role-Based Access Control system built with React, TypeScript, 
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Srutip04/proj-alpha-7845.git
    cd rbac-system
    ```
 
